@@ -84,14 +84,3 @@ Currently at **AirCod Technologies** in Lahore.
 </div>
 
 <br/>
-
-## GitHub Stats
-
-<div align="center">
-  <img height="165" src="https://github-readme-stats.vercel.app/api?username=mudassarbinqaiser&show_icons=true&include_all_commits=true&count_private=true&hide_border=true&theme=github_dark" alt="GitHub stats" />
-  <img height="165" src="https://github-readme-stats.vercel.app/api/top-langs/?username=mudassarbinqaiser&layout=compact&langs_count=8&hide_border=true&theme=github_dark" alt="Top languages" />
-</div>
-
-<div align="center">
-  <img src="https://github-readme-activity-graph.vercel.app/graph?username=mudassarbinqaiser&theme=github-compact&hide_border=true&area=true" alt="Contribution graph" />
-</div>
