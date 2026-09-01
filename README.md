@@ -5,9 +5,26 @@
   </picture>
 </a>
 
-I build and operate production agentic AI systems inside regulated enterprises that cannot use
-the cloud — on-premises, multilingual, and answerable to a compliance review. Currently at
-**AirCod Technologies** in Lahore.
+I build and operate production agentic AI systems inside regulated enterprises that cannot
+use the cloud - on-premises, multilingual, and answerable to a compliance review.
+
+**On-premises deployment.** Self-hosted agent runtimes in client datacentres, chosen because
+data-residency constraints disqualified every hosted platform on the evaluation list. The
+runtime stays portable across Claude, GPT and Gemini, so a provider decision made by lawyers
+is a configuration change rather than a migration.
+
+**Architecture and governance.** Hierarchical multi-agent topologies with context-preserving
+handoffs, and typed schema-enforced output so agent responses can actually be tested.
+Authentication, PII masking and hallucination detection live as pre- and post-execution hooks
+in the runtime, not in a policy document written for the review.
+
+**Voice and non-English runtimes.** LiveKit voice pipelines, multilingual on one codebase.
+
+Most of what is published about agentic AI assumes an American company, an English-speaking
+user, and an unrestricted cloud account. Remove any one of those and most of the advice stops
+applying. That is the part I find interesting.
+
+Currently at **AirCod Technologies** in Lahore.
 
 ## Skills
 
@@ -63,7 +80,7 @@ the cloud — on-premises, multilingual, and answerable to a compliance review. 
 <br/>
 
 <div align="center">
-  <img src="https://readme-typing-svg.demolab.com?font=Fira+Code&pause=1000&color=45A1FF&center=true&vCenter=true&width=600&lines=On-prem+agentic+AI%2C+for+teams+who+can't+use+the+cloud;Multi-agent+systems+that+survive+a+compliance+review;Typed+outputs%2C+PII+masking%2C+hallucination+hooks;Voice+agents+that+speak+more+than+English" alt="Typing SVG" />
+  <img src="https://readme-typing-svg.demolab.com?font=Fira+Code&size=20&pause=1000&color=5EEAD4&center=true&vCenter=true&width=700&height=60&lines=Enterprise%20agentic%20AI%2C%20on-premises%20and%20in%20the%20cloud;Multi-agent%20systems%20that%20survive%20a%20compliance%20review;Typed%20outputs%2C%20PII%20masking%2C%20hallucination%20detection;Voice%20agents%20that%20speak%20more%20than%20English" alt="Typing SVG" />
 </div>
 
 <br/>
