@@ -17,28 +17,47 @@ import json
 
 # ----------------------------------------------------------------- EDIT ME ---
 USER = "mudassarbinqaiser"
-BIRTHDAY = dt.date(2000, 1, 1)          # <- set your real birthday
-HOST = "AirCod Technologies, Lahore"
-KERNEL = "On-Prem Agentic AI Systems"
+BIRTHDAY = dt.date(2002, 12, 6)
+HOST = "Lahore, Pakistan"
+KERNEL = "Enterprise On-Prem and Cloud"
 OS_LINE = "Windows 11, WSL2, Ubuntu"
-IDE = "VS Code, Claude Code, Neovim"
-EMAIL = "you@example.com"               # <- your email
-LINKEDIN = "/in/your-handle"            # <- your LinkedIn
-WEBSITE = "your-site.com"               # <- your site
+IDE = "VS Code, Claude Code, Cursor"
+EMAIL = "mudasserqaiser14@gmail.com"
+LINKEDIN = "/in/mudassar-bin-qaiser-ai-ml-engineer"
 # ------------------------------------------------------------------------------
 
 COL = 62          # character columns in the right-hand panel
-X = 460           # x offset of the panel (clears the 41-col ASCII block)
+X = 400           # x offset of the panel (clears the 41-col ASCII block)
 LH = 20           # line height in px
 CH = 10.1         # measured advance of the widest common mono face at 16px
+ASCII_FS = 13     # the art renders smaller than the panel so 35 rows fit
+ASCII_LH = 13
 WIDTH = X + int(COL * CH) + 18
 
-THEMES = {
-    "dark_mode.svg": dict(bg="#161b22", fg="#c9d1d9", key="#ffa657", value="#a5d6ff",
-                          add="#3fb950", dele="#f85149", cc="#616e7f"),
-    "light_mode.svg": dict(bg="#ffffff", fg="#24292f", key="#953800", value="#0a3069",
-                           add="#1a7f37", dele="#cf222e", cc="#57606a"),
+# Pick one: "slate" (teal on deep navy), "amber" (warm terminal), "github" (stock).
+PALETTE = "slate"
+
+PALETTES = {
+    "slate": {
+        "dark_mode.svg": dict(bg="#0b1220", fg="#cbd5e1", key="#5eead4", value="#e2e8f0",
+                              add="#4ade80", dele="#fb7185", cc="#475569"),
+        "light_mode.svg": dict(bg="#f8fafc", fg="#0f172a", key="#0f766e", value="#1e293b",
+                               add="#15803d", dele="#be123c", cc="#94a3b8"),
+    },
+    "amber": {
+        "dark_mode.svg": dict(bg="#12100c", fg="#e8dcc8", key="#f0b429", value="#fce8b2",
+                              add="#84cc16", dele="#f87171", cc="#6b5f4b"),
+        "light_mode.svg": dict(bg="#fffbf2", fg="#3b2f1c", key="#a16207", value="#422006",
+                               add="#4d7c0f", dele="#b91c1c", cc="#a8a29e"),
+    },
+    "github": {
+        "dark_mode.svg": dict(bg="#161b22", fg="#c9d1d9", key="#ffa657", value="#a5d6ff",
+                              add="#3fb950", dele="#f85149", cc="#616e7f"),
+        "light_mode.svg": dict(bg="#ffffff", fg="#24292f", key="#953800", value="#0a3069",
+                               add="#1a7f37", dele="#cf222e", cc="#57606a"),
+    },
 }
+THEMES = PALETTES[PALETTE]
 
 GRAPHQL = """
 query($login: String!) {
@@ -145,7 +164,7 @@ def trailing_plain(markup):
 
 
 def rule(title):
-    return f'- {esc(title)} <tspan class="cc">{"─" * max(3, COL - len(title) - 3)}</tspan>'
+    return f'▸ {esc(title)} <tspan class="cc">{"─" * max(3, COL - len(title) - 3)}</tspan>'
 
 
 def build_lines(s):
@@ -167,14 +186,13 @@ def build_lines(s):
         kv("Languages.Computer", "YAML, JSON, SQL, HTML, CSS"),
         kv("Languages.Real", "Urdu, English, Punjabi"),
         "",
-        kv("Stack.Agents", "LangGraph, LangChain, MCP"),
+        kv("Stack.Agents", "LangGraph, LangChain, DeepAgents, MCP"),
         kv("Stack.Serving", "FastAPI, Docker, Kubernetes"),
         kv("Stack.Voice", "LiveKit, multilingual pipelines"),
         "",
         rule("Contact"),
         kv("Email", EMAIL),
         kv("LinkedIn", LINKEDIN),
-        kv("Website", WEBSITE),
         "",
         rule("GitHub Stats"),
         kv("Repos", s["repos"], trailing=contributed),
@@ -188,7 +206,7 @@ def build_lines(s):
 def main():
     ascii_rows = open("ascii.txt", encoding="utf-8").read().rstrip("\n").split("\n")
     lines = build_lines(fetch_stats())
-    height = max(30 + len(lines) * LH, 50 + len(ascii_rows) * LH) + 20
+    height = max(30 + len(lines) * LH, 40 + len(ascii_rows) * ASCII_LH) + 22
 
     for fname, t in THEMES.items():
         out = [
@@ -208,10 +226,10 @@ def main():
             "",
             f'<rect width="{WIDTH}px" height="{height}px" fill="{t["bg"]}" rx="15"/>',
             "",
-            f'<text x="15" y="30" fill="{t["fg"]}">',
+            f'<text x="15" y="30" fill="{t["fg"]}" font-size="{ASCII_FS}px">',
         ]
         for i, row in enumerate(ascii_rows):
-            out.append(f'<tspan x="15" y="{50 + i * LH}">{esc(row)}</tspan>')
+            out.append(f'<tspan x="15" y="{40 + i * ASCII_LH}">{esc(row)}</tspan>')
         out += ["</text>", "", f'<text x="{X}" y="30" fill="{t["fg"]}">']
         for i, line in enumerate(lines):
             out.append(f'<tspan x="{X}" y="{30 + i * LH}">{line}</tspan>')
