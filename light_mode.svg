@@ -1,0 +1,68 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<svg xmlns="http://www.w3.org/2000/svg" font-family="Consolas,&apos;DejaVu Sans Mono&apos;,&apos;Liberation Mono&apos;,&apos;Courier New&apos;,monospace" width="1104px" height="570px" font-size="16px">
+<style>
+.key {fill: #953800;}
+.value {fill: #0a3069;}
+.addColor {fill: #1a7f37;}
+.delColor {fill: #cf222e;}
+.cc {fill: #57606a;}
+text, tspan {white-space: pre;}
+</style>
+
+<rect width="1104px" height="570px" fill="#ffffff" rx="15"/>
+
+<text x="15" y="30" fill="#24292f">
+<tspan x="15" y="50">                     --</tspan>
+<tspan x="15" y="70">               =#%@@@@@@@@@@=</tspan>
+<tspan x="15" y="90">              %@@@@@@++*#*++</tspan>
+<tspan x="15" y="110">              @#%%@+--*@@%*#</tspan>
+<tspan x="15" y="130">              +*=-+=--=+#*+*</tspan>
+<tspan x="15" y="150">               #%-#@%%*###%#</tspan>
+<tspan x="15" y="170">                *-*@@@@@@@@%</tspan>
+<tspan x="15" y="190">                   --=#@%+</tspan>
+<tspan x="15" y="210">               -+#+=++++**-</tspan>
+<tspan x="15" y="230">      -+#%%@@@@@@@@@@@*+@@@@@@%#%##+-</tspan>
+<tspan x="15" y="250">    =@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@#</tspan>
+<tspan x="15" y="270">    @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@#</tspan>
+<tspan x="15" y="290">   +%%@@@@@@@%%@@@@@@@@@@@@@@@@@@@@@@@@%</tspan>
+<tspan x="15" y="310">   #%%@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@=</tspan>
+<tspan x="15" y="330">   %%%@@@@@@@@#@@%%%%%%###*+=---*%@@@@@@</tspan>
+<tspan x="15" y="350">   @@@@@@@@@%==+-                -+%@@@@</tspan>
+<tspan x="15" y="370">   %@@@@@@#=--================-==++*@@@-</tspan>
+<tspan x="15" y="390">    +%@@@*===--===========+++#%#%@@@-</tspan>
+<tspan x="15" y="410">       -@%%%##############%%%@@@@@@@#</tspan>
+<tspan x="15" y="430">        @%@@@@@@@@@@@@@@@@@@@@@@@@@@@</tspan>
+<tspan x="15" y="450">       +%%%%%@@@@@@@@@@@@@@@@@@@@@@@%</tspan>
+<tspan x="15" y="470">       %%@@@@@@@@@@@@@@@@@@@@@@@@@@@-</tspan>
+<tspan x="15" y="490">       @%@@@@@@@@@@@@@@@@@@@@@@@@@@@=</tspan>
+</text>
+
+<text x="460" y="30" fill="#24292f">
+<tspan x="460" y="30">mudassarbinqaiser <tspan class="cc">────────────────────────────────────────────</tspan></tspan>
+<tspan x="460" y="50">. <tspan class="key">OS</tspan>:<tspan class="cc"> ............................... </tspan><tspan class="value">Windows 11, WSL2, Ubuntu</tspan></tspan>
+<tspan x="460" y="70">. <tspan class="key">Uptime</tspan>:<tspan class="cc"> ......................... </tspan><tspan class="value">26 years, 8 months, 0 days</tspan></tspan>
+<tspan x="460" y="90">. <tspan class="key">Host</tspan>:<tspan class="cc"> .......................... </tspan><tspan class="value">AirCod Technologies, Lahore</tspan></tspan>
+<tspan x="460" y="110">. <tspan class="key">Kernel</tspan>:<tspan class="cc"> ......................... </tspan><tspan class="value">On-Prem Agentic AI Systems</tspan></tspan>
+<tspan x="460" y="130">. <tspan class="key">IDE</tspan>:<tspan class="cc"> .......................... </tspan><tspan class="value">VS Code, Claude Code, Neovim</tspan></tspan>
+<tspan x="460" y="150"></tspan>
+<tspan x="460" y="170">. <tspan class="key">Languages.Programming</tspan>:<tspan class="cc"> ...... </tspan><tspan class="value">Python, TypeScript, JavaScript</tspan></tspan>
+<tspan x="460" y="190">. <tspan class="key">Languages.Computer</tspan>:<tspan class="cc"> ............. </tspan><tspan class="value">YAML, JSON, SQL, HTML, CSS</tspan></tspan>
+<tspan x="460" y="210">. <tspan class="key">Languages.Real</tspan>:<tspan class="cc"> ..................... </tspan><tspan class="value">Urdu, English, Punjabi</tspan></tspan>
+<tspan x="460" y="230"></tspan>
+<tspan x="460" y="250">. <tspan class="key">Stack.Agents</tspan>:<tspan class="cc"> .................... </tspan><tspan class="value">LangGraph, LangChain, MCP</tspan></tspan>
+<tspan x="460" y="270">. <tspan class="key">Stack.Serving</tspan>:<tspan class="cc"> ................. </tspan><tspan class="value">FastAPI, Docker, Kubernetes</tspan></tspan>
+<tspan x="460" y="290">. <tspan class="key">Stack.Voice</tspan>:<tspan class="cc"> ............... </tspan><tspan class="value">LiveKit, multilingual pipelines</tspan></tspan>
+<tspan x="460" y="310"></tspan>
+<tspan x="460" y="330">- Contact <tspan class="cc">────────────────────────────────────────────────────</tspan></tspan>
+<tspan x="460" y="350">. <tspan class="key">Email</tspan>:<tspan class="cc"> ..................................... </tspan><tspan class="value">you@example.com</tspan></tspan>
+<tspan x="460" y="370">. <tspan class="key">LinkedIn</tspan>:<tspan class="cc"> .................................. </tspan><tspan class="value">/in/your-handle</tspan></tspan>
+<tspan x="460" y="390">. <tspan class="key">Website</tspan>:<tspan class="cc"> ..................................... </tspan><tspan class="value">your-site.com</tspan></tspan>
+<tspan x="460" y="410"></tspan>
+<tspan x="460" y="430">- GitHub Stats <tspan class="cc">───────────────────────────────────────────────</tspan></tspan>
+<tspan x="460" y="450">. <tspan class="key">Repos</tspan>:<tspan class="cc"> ............................. </tspan><tspan class="value">--</tspan><tspan class="cc"> {</tspan><tspan class="key">Contributed to</tspan><tspan class="cc">: </tspan><tspan class="value">--</tspan><tspan class="cc">}</tspan></tspan>
+<tspan x="460" y="470">. <tspan class="key">Commits</tspan>:<tspan class="cc"> ................................................ </tspan><tspan class="value">--</tspan></tspan>
+<tspan x="460" y="490">. <tspan class="key">Stars earned</tspan>:<tspan class="cc"> ........................................... </tspan><tspan class="value">--</tspan></tspan>
+<tspan x="460" y="510">. <tspan class="key">Followers</tspan>:<tspan class="cc"> .............................................. </tspan><tspan class="value">--</tspan></tspan>
+<tspan x="460" y="530">. <tspan class="key">Contributions</tspan>:<tspan class="cc"> .............................. </tspan><tspan class="value">--</tspan><tspan class="cc"> (last year)</tspan></tspan>
+</text>
+</svg>
