@@ -1,105 +1,124 @@
 #!/usr/bin/env python3
 """
-Turns a portrait into the ASCII block used by profile_card.py.
+Turns a background-removed portrait (transparent PNG) into the ASCII blocks
+used by profile_card.py.
 
-    python make_ascii.py photo.jpg                     # auto head-and-shoulders crop
-    python make_ascii.py photo.jpg 600 840 1960 2900   # explicit crop box
+    python make_ascii.py cutout.png
 
-Two things make this read as a person rather than a blob:
+Writes ascii_dark.txt (for light glyphs on a dark card) and ascii_light.txt
+(dark glyphs on a light card). Requires Pillow and numpy.
 
-1. The subject is separated from the background, then its tonal range is
-   equalised against *itself*. Normalising globally lets the background-vs-subject
-   contrast dominate and flattens everything inside the subject to one character.
+What makes this read as a face rather than noise:
 
-2. The result is lifted into the top 60% of the ramp (FLOOR), so the figure still
-   reads as a solid shape. Using the full ramp gives depth but dissolves the
-   silhouette into the background.
+1. The silhouette comes from the PNG's alpha channel, not a brightness guess,
+   so the outline is exact and the background is genuinely empty.
+
+2. Cells are sized to the real glyph box. Monospace glyphs are ~1.8x taller
+   than wide, so the row count is derived from the crop's aspect ratio
+   instead of being hard-coded; the face is no longer squashed.
+
+3. The glyph ramp is measured. Each candidate glyph is rasterised in Consolas
+   and its ink coverage recorded, then glyphs are picked at evenly spaced
+   densities. "Looks darker" and "is darker" finally agree.
+
+4. Tone is computed in linear light, stretched between the subject's own 1st
+   and 99th percentiles, then mapped per theme: brightness -> ink on the dark
+   card, darkness -> ink on the light card. One file for both themes would
+   render one of them as a negative.
 """
 
 import sys
 import numpy as np
-from PIL import Image, ImageFilter
+from PIL import Image, ImageDraw, ImageFile, ImageFilter, ImageFont
 
-COLS, ROWS = 44, 40          # grid; pairs with ASCII_FS/ASCII_LH in profile_card.py
-RAMP = " .:-=+*oesc#%@"      # light -> dense
-SKY_CUTOFF = 150             # grey level above which a pixel counts as background
-FLOOR = 0.40                 # minimum ink density for subject pixels
-HEAD_TO_BODY = 1.55          # crop height as a multiple of subject width
-OUT = "ascii.txt"
+ImageFile.LOAD_TRUNCATED_IMAGES = True   # phone exports often lack IEND
 
-
-def auto_crop(im):
-    """Frame head-and-shoulders. Subject width sets the height, which keeps
-    floors, railings and other low clutter out of the shot."""
-    g = np.asarray(im, float)
-    H, W = g.shape
-    dark = g < SKY_CUTOFF
-
-    tops = np.where(dark.sum(1) > W * 0.01)[0]
-    if not len(tops):
-        return im
-    top = int(tops[0])
-
-    # measure width a little below the head, where the torso is
-    band = dark[top + int(0.25 * (H - top)): top + int(0.55 * (H - top))]
-    cols = band.sum(0)
-    xs = np.where(cols > band.shape[0] * 0.1)[0]
-    if not len(xs):
-        return im
-    left, right = int(xs[0]), int(xs[-1])
-
-    pad = int((right - left) * 0.05)
-    x0, x1 = max(0, left - pad), min(W, right + pad)
-    y0 = max(0, top - pad)
-    y1 = min(H, y0 + int((x1 - x0) * HEAD_TO_BODY))
-    print(f"auto-crop: ({x0}, {y0}, {x1}, {y1})")
-    return im.crop((x0, y0, x1, y1))
+COLS = 62                 # pairs with ASCII_FS / X in profile_card.py
+CELL_ASPECT = 1.818       # glyph box height / advance width (1 / 0.55em)
+CROP_ASPECT = 1.35        # crop height / width: head to just below the arms
+FLOOR = 0.18              # minimum ink for a subject cell so the figure stays solid
+COVER_MIN = 0.35          # alpha coverage below which a cell is background
+LEVELS = 18
+FONT = "C:/Windows/Fonts/consola.ttf"
+POOL = " .:-~;=+*cvsxoaeSZXAHO#%8&@"   # visually even glyphs; ramp is picked from these
+OUT = {"dark": "ascii_dark.txt", "light": "ascii_light.txt"}
 
 
-def main(path, box=None):
-    im = Image.open(path).convert("L")
-    if im.size == (3219, 2280):                    # the original chat screenshot
-        im = im.crop((60, 540, 815, 1300)).crop((165, 60, 565, 640))
-    elif box:
-        im = im.crop(box)
-    else:
-        im = auto_crop(im)
+def measure_ramp():
+    """Pick LEVELS glyphs from POOL at evenly spaced measured ink densities."""
+    try:
+        font = ImageFont.truetype(FONT, 64)
+    except OSError:                                # classic fallback
+        ramp = list(" .:-=+*#%@")
+        return ramp, np.linspace(0, 1, len(ramp))
+    adv = int(font.getlength("M"))
+    asc, desc = font.getmetrics()
+    dens = {}
+    for ch in POOL:
+        im = Image.new("L", (adv + 4, asc + desc + 4), 0)
+        ImageDraw.Draw(im).text((2, 2), ch, font=font, fill=255)
+        dens[ch] = np.asarray(im).mean() / 255
+    top = max(dens.values())
+    picked = {min(dens, key=lambda c: abs(dens[c] / top - t)) for t in np.linspace(0, 1, LEVELS)}
+    ramp = sorted(picked, key=dens.get)
+    return ramp, np.array([dens[c] / top for c in ramp])
 
-    # denoise first, or equalising near-uniform fabric amplifies sensor grain
-    im = im.filter(ImageFilter.MedianFilter(5))
-    im = im.filter(ImageFilter.UnsharpMask(radius=6, percent=120, threshold=3))
 
-    a = np.asarray(im.resize((COLS, ROWS), Image.LANCZOS), dtype=float)
-    subject = a <= SKY_CUTOFF
+def load(path):
+    im = Image.open(path).convert("RGBA")
+    im.load()
+    a = np.asarray(im)[:, :, 3]
+    rows = np.where((a > 8).any(1))[0]
+    cols = np.where((a > 8).any(0))[0]
+    im = im.crop((int(cols[0]), int(rows[0]), int(cols[-1]) + 1, int(rows[-1]) + 1))
+    w, h = im.size
+    return im.crop((0, 0, w, min(h, int(w * CROP_ASPECT))))
+
+
+def main(path):
+    im = load(path)
+    w, h = im.size
+    rows = max(1, round(COLS * (h / w) / CELL_ASPECT))
+
+    # local contrast at roughly one cell's radius so glasses, eyes and the
+    # beard line survive the downsample instead of averaging into skin tone
+    cell = w / COLS
+    im = im.filter(ImageFilter.UnsharpMask(radius=cell * 0.8, percent=90, threshold=2))
+
+    rgba = np.asarray(im, dtype=float) / 255
+    alpha = rgba[:, :, 3]
+    lin = ((0.2126 * rgba[:, :, 0] + 0.7152 * rgba[:, :, 1] + 0.0722 * rgba[:, :, 2]) ** 2.2)
+
+    # box-average alpha and alpha-weighted linear luminance into the grid
+    def grid(arr):
+        return np.asarray(Image.fromarray((arr * 65535).astype(np.uint16))
+                          .resize((COLS, rows), Image.BOX), dtype=float) / 65535
+
+    cover = grid(alpha)
+    lum = grid(lin * alpha) / np.maximum(cover, 1e-6)
+    subject = cover > COVER_MIN
     if not subject.any():
-        sys.exit("no subject found - adjust SKY_CUTOFF")
+        sys.exit("no subject found - is the PNG transparent?")
 
-    vals = a[subject]
-    rank = 1.0 - (vals.argsort().argsort() / max(1, len(vals) - 1))
-    lum = 1.0 - (vals - vals.min()) / max(1.0, float(vals.max() - vals.min()))
+    lo, hi = np.percentile(lum[subject], [1, 99])
+    bright = np.clip((lum - lo) / max(hi - lo, 1e-6), 0, 1) ** (1 / 2.2)
+    edge = np.clip((cover - COVER_MIN) / (0.85 - COVER_MIN), 0, 1)   # feather the outline
 
-    # pure ranking looks noisy on flat fabric, pure luminance goes flat again
-    density = 0.35 * rank + 0.65 * (lum ** 0.75)
-    density = FLOOR + (1.0 - FLOOR) * density
-
-    out = np.zeros_like(a)
-    out[subject] = density
-    idx = np.clip((out * (len(RAMP) - 1)).round().astype(int), 0, len(RAMP) - 1)
-
-    rows = ["".join(" " if not subject[r, c] else RAMP[idx[r, c]]
-                    for c in range(COLS)).rstrip() for r in range(ROWS)]
-    while rows and len(rows[0].strip()) < 4:
-        rows.pop(0)
-    while rows and len(rows[-1].strip()) < 4:
-        rows.pop()
-
-    open(OUT, "w", encoding="utf-8").write("\n".join(rows))
-    print("\n".join(rows))
-    print(f"\n-> {OUT}: {len(rows)} rows x {max(len(r) for r in rows)} cols")
+    ramp, dens = measure_ramp()
+    print(f"ramp: {''.join(ramp)!r}")
+    for theme, fname in OUT.items():
+        tone = bright if theme == "dark" else 1 - bright
+        density = (FLOOR + (1 - FLOOR) * tone) * (0.4 + 0.6 * edge)
+        # nearest measured density, never the blank glyph for a subject cell
+        idx = np.abs(density[..., None] - dens[None, None, 1:]).argmin(-1) + 1
+        lines = ["".join(ramp[idx[r, c]] if subject[r, c] else " "
+                         for c in range(COLS)).rstrip() for r in range(rows)]
+        while lines and not lines[-1]:
+            lines.pop()
+        open(fname, "w", encoding="utf-8", newline="\n").write("\n".join(lines))
+        print(f"-> {fname}: {len(lines)} rows x {COLS} cols")
+    print("\n".join(open(OUT["dark"], encoding="utf-8").read().split("\n")))
 
 
 if __name__ == "__main__":
-    args = sys.argv[1:]
-    src = args[0] if args else "portrait.jpg"
-    crop = tuple(int(v) for v in args[1:5]) if len(args) >= 5 else None
-    main(src, crop)
+    main(sys.argv[1] if len(sys.argv) > 1 else "cutout.png")

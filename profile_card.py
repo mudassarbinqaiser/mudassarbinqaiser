@@ -2,6 +2,8 @@
 """
 Regenerates dark_mode.svg and light_mode.svg for the GitHub profile README.
 
+The ASCII portrait comes from ascii_dark.txt / ascii_light.txt (see make_ascii.py).
+
 Runs locally with no token (falls back to placeholder stats) or in CI with
 ACCESS_TOKEN set, in which case it pulls live numbers from the GitHub GraphQL API.
 
@@ -17,6 +19,8 @@ import json
 
 # ----------------------------------------------------------------- EDIT ME ---
 USER = "mudassarbinqaiser"
+NAME = "Mudassar Bin Qaiser"
+TITLE = "Senior AI & ML Engineer"
 BIRTHDAY = dt.date(2002, 12, 6)
 HOST = "Lahore, Pakistan"
 KERNEL = "Enterprise On-Prem and Cloud"
@@ -27,11 +31,13 @@ LINKEDIN = "/in/mudassar-bin-qaiser-ai-ml-engineer"
 # ------------------------------------------------------------------------------
 
 COL = 62          # character columns in the right-hand panel
-X = 400           # x offset of the panel (clears the 41-col ASCII block)
+X = 400           # x offset of the panel (clears the 62-col ASCII block)
 LH = 20           # line height in px
 CH = 10.1         # measured advance of the widest common mono face at 16px
-ASCII_FS = 13     # the art renders smaller than the panel so 35 rows fit
-ASCII_LH = 13
+ASCII_FS = 10     # 62 cols x ~0.6em fits inside the 385px portrait column
+ASCII_LH = 10
+ASCII_TOP = 36
+ASCII = {"dark_mode.svg": "ascii_dark.txt", "light_mode.svg": "ascii_light.txt"}
 WIDTH = X + int(COL * CH) + 18
 
 # Pick one: "slate" (teal on deep navy), "amber" (warm terminal), "github" (stock).
@@ -204,9 +210,17 @@ def build_lines(s):
 
 
 def main():
-    ascii_rows = open("ascii.txt", encoding="utf-8").read().rstrip("\n").split("\n")
+    art = {f: open(a, encoding="utf-8").read().rstrip("\n").split("\n")
+           for f, a in ASCII.items()}
     lines = build_lines(fetch_stats())
-    height = max(30 + len(lines) * LH, 40 + len(ascii_rows) * ASCII_LH) + 22
+    art_rows = max(len(v) for v in art.values())
+    art_bottom = ASCII_TOP + art_rows * ASCII_LH
+    name_y = art_bottom + 26
+    title_y = name_y + 22
+    text_h = (len(lines) - 1) * LH
+    height = max(title_y + 22, text_h + 60)
+    text_y0 = (height - text_h) // 2 + 5     # centre the panel vertically
+    cx = X // 2                                 # centre of the portrait column
 
     for fname, t in THEMES.items():
         out = [
@@ -226,15 +240,24 @@ def main():
             "",
             f'<rect width="{WIDTH}px" height="{height}px" fill="{t["bg"]}" rx="15"/>',
             "",
-            f'<text x="15" y="30" fill="{t["fg"]}" font-size="{ASCII_FS}px">',
+            f'<text x="15" y="{ASCII_TOP}" fill="{t["fg"]}" font-size="{ASCII_FS}px">',
         ]
-        for i, row in enumerate(ascii_rows):
-            out.append(f'<tspan x="15" y="{40 + i * ASCII_LH}">{esc(row)}</tspan>')
-        out += ["</text>", "", f'<text x="{X}" y="30" fill="{t["fg"]}">']
+        for i, row in enumerate(art[fname]):
+            out.append(f'<tspan x="15" y="{ASCII_TOP + i * ASCII_LH}">{esc(row)}</tspan>')
+        out += [
+            "</text>",
+            "",
+            f'<text x="{cx}" y="{name_y}" text-anchor="middle" fill="{t["fg"]}" '
+            f'font-size="17px" font-weight="600">{esc(NAME)}</text>',
+            f'<text x="{cx}" y="{title_y}" text-anchor="middle" fill="{t["key"]}" '
+            f'font-size="12px" letter-spacing="1.5">{esc(TITLE.upper())}</text>',
+            "",
+            f'<text x="{X}" y="{text_y0}" fill="{t["fg"]}">',
+        ]
         for i, line in enumerate(lines):
-            out.append(f'<tspan x="{X}" y="{30 + i * LH}">{line}</tspan>')
+            out.append(f'<tspan x="{X}" y="{text_y0 + i * LH}">{line}</tspan>')
         out += ["</text>", "</svg>"]
-        open(fname, "w", encoding="utf-8").write("\n".join(out))
+        open(fname, "w", encoding="utf-8", newline="\n").write("\n".join(out))
         print(f"wrote {fname} ({WIDTH}x{height})")
 
 
