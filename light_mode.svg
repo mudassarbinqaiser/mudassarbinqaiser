@@ -66,7 +66,7 @@ text, tspan {white-space: pre;}
 <text x="400" y="48" fill="#0f172a">
 <tspan x="400" y="48">mudassarbinqaiser <tspan class="cc">────────────────────────────────────────────</tspan></tspan>
 <tspan x="400" y="68">. <tspan class="key">OS</tspan>:<tspan class="cc"> ............................... </tspan><tspan class="value">Windows 11, WSL2, Ubuntu</tspan></tspan>
-<tspan x="400" y="88">. <tspan class="key">Uptime</tspan>:<tspan class="cc"> ........................ </tspan><tspan class="value">23 years, 9 months, 29 days</tspan></tspan>
+<tspan x="400" y="88">. <tspan class="key">Uptime</tspan>:<tspan class="cc"> ........................ </tspan><tspan class="value">23 years, 10 months, 0 days</tspan></tspan>
 <tspan x="400" y="108">. <tspan class="key">Host</tspan>:<tspan class="cc"> ..................................... </tspan><tspan class="value">Lahore, Pakistan</tspan></tspan>
 <tspan x="400" y="128">. <tspan class="key">Kernel</tspan>:<tspan class="cc"> ....................... </tspan><tspan class="value">Enterprise On-Prem and Cloud</tspan></tspan>
 <tspan x="400" y="148">. <tspan class="key">IDE</tspan>:<tspan class="cc"> .......................... </tspan><tspan class="value">VS Code, Claude Code, Cursor</tspan></tspan>
@@ -85,9 +85,9 @@ text, tspan {white-space: pre;}
 <tspan x="400" y="408"></tspan>
 <tspan x="400" y="428">▸ GitHub Stats <tspan class="cc">───────────────────────────────────────────────</tspan></tspan>
 <tspan x="400" y="448">. <tspan class="key">Repos</tspan>:<tspan class="cc"> .............................. </tspan><tspan class="value">44</tspan><tspan class="cc"> {</tspan><tspan class="key">Contributed to</tspan><tspan class="cc">: </tspan><tspan class="value">8</tspan><tspan class="cc">}</tspan></tspan>
-<tspan x="400" y="468">. <tspan class="key">Commits</tspan>:<tspan class="cc"> ............................................... </tspan><tspan class="value">228</tspan></tspan>
+<tspan x="400" y="468">. <tspan class="key">Commits</tspan>:<tspan class="cc"> ............................................... </tspan><tspan class="value">233</tspan></tspan>
 <tspan x="400" y="488">. <tspan class="key">Stars earned</tspan>:<tspan class="cc"> ............................................ </tspan><tspan class="value">0</tspan></tspan>
 <tspan x="400" y="508">. <tspan class="key">Followers</tspan>:<tspan class="cc"> ............................................... </tspan><tspan class="value">1</tspan></tspan>
-<tspan x="400" y="528">. <tspan class="key">Contributions</tspan>:<tspan class="cc"> ............................. </tspan><tspan class="value">561</tspan><tspan class="cc"> (last year)</tspan></tspan>
+<tspan x="400" y="528">. <tspan class="key">Contributions</tspan>:<tspan class="cc"> ............................. </tspan><tspan class="value">568</tspan><tspan class="cc"> (last year)</tspan></tspan>
 </text>
 </svg>
