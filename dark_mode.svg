@@ -66,7 +66,7 @@ text, tspan {white-space: pre;}
 <text x="400" y="48" fill="#cbd5e1">
 <tspan x="400" y="48">mudassarbinqaiser <tspan class="cc">────────────────────────────────────────────</tspan></tspan>
 <tspan x="400" y="68">. <tspan class="key">OS</tspan>:<tspan class="cc"> ............................... </tspan><tspan class="value">Windows 11, WSL2, Ubuntu</tspan></tspan>
-<tspan x="400" y="88">. <tspan class="key">Uptime</tspan>:<tspan class="cc"> ........................ </tspan><tspan class="value">23 years, 10 months, 2 days</tspan></tspan>
+<tspan x="400" y="88">. <tspan class="key">Uptime</tspan>:<tspan class="cc"> ........................ </tspan><tspan class="value">23 years, 10 months, 3 days</tspan></tspan>
 <tspan x="400" y="108">. <tspan class="key">Host</tspan>:<tspan class="cc"> ..................................... </tspan><tspan class="value">Lahore, Pakistan</tspan></tspan>
 <tspan x="400" y="128">. <tspan class="key">Kernel</tspan>:<tspan class="cc"> ....................... </tspan><tspan class="value">Enterprise On-Prem and Cloud</tspan></tspan>
 <tspan x="400" y="148">. <tspan class="key">IDE</tspan>:<tspan class="cc"> .......................... </tspan><tspan class="value">VS Code, Claude Code, Cursor</tspan></tspan>
